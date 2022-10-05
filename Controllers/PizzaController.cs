@@ -1,43 +1,94 @@
-﻿using la_mia_pizzeria.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using la_mia_pizzeria.Models;
 
-namespace la_mia_pizzeria_model.Controllers
+namespace la_mia_pizzeria.Controllers
 {
     public class PizzaController : Controller
     {
-        public IActionResult Index()
+        // GET: PizzaController
+        public ActionResult Index()
         {
-            List<Pizza> pizzas = new List<Pizza>();
+            PizzeriaContext db = new PizzeriaContext();
 
-            Pizza margherita = new Pizza(0, "Margherita", "Pomodoro, Mozzarella", "https://www.melarossa.it/wp-content/uploads/2021/02/ricetta-pizza-margherita.jpg?x58780", 4.99);
-            Pizza diavola = new Pizza(1, "Diavola", "Pomodoro, Mozzarella, Salame pizzante", "https://www.negroni.com/sites/negroni.com/files/styles/scale__1440_x_1440_/public/pizza_rustica.jpg?itok=Lbp_jtZW", 5.99);
-            Pizza olive = new Pizza(2, "Olive", "Pomodoro, Mozzarella, Olive nere, Olive verdi", "https://blog.giallozafferano.it/dolcissimastefy/wp-content/uploads/2018/04/IMG_0480-2.jpg", 5.50);
-            Pizza quattroStagioni = new Pizza(3, "4 Stagioni", "Pomodoro, Mozzarella, Funghi, Prosciutto, Olive nere, Carciofi", "https://primochef.it/wp-content/uploads/2020/04/SH_pizza_quattro_stagioni.jpg", 6.99);
-
-            pizzas.Add(margherita);
-            pizzas.Add(diavola);
-            pizzas.Add(olive);
-            pizzas.Add(quattroStagioni);
-
-            return View(pizzas);
+            return View(db.Pizzas.ToList());
         }
 
-        public IActionResult Show(int id)
+        // GET: PizzaController/Show/5
+        public ActionResult Show(int id)
         {
-            List<Pizza> pizzas = new List<Pizza>();
+            PizzeriaContext db = new PizzeriaContext();
 
-            Pizza margherita = new Pizza(0, "Margherita", "Pomodoro, Mozzarella", "https://www.melarossa.it/wp-content/uploads/2021/02/ricetta-pizza-margherita.jpg?x58780", 4.99);
-            Pizza diavola = new Pizza(1, "Diavola", "Pomodoro, Mozzarella, Salame pizzante", "https://www.negroni.com/sites/negroni.com/files/styles/scale__1440_x_1440_/public/pizza_rustica.jpg?itok=Lbp_jtZW", 5.99);
-            Pizza olive = new Pizza(2, "Olive", "Pomodoro, Mozzarella, Olive nere, Olive verdi", "https://blog.giallozafferano.it/dolcissimastefy/wp-content/uploads/2018/04/IMG_0480-2.jpg", 5.50);
-            Pizza quattroStagioni = new Pizza(3, "4 Stagioni", "Pomodoro, Mozzarella, Funghi, Prosciutto, Olive nere, Carciofi", "https://primochef.it/wp-content/uploads/2020/04/SH_pizza_quattro_stagioni.jpg", 6.99);
+            return View(db.Pizzas.Find(id));
+        }
 
-            pizzas.Add(margherita);
-            pizzas.Add(diavola);
-            pizzas.Add(olive);
-            pizzas.Add(quattroStagioni);
+        // GET: PizzaController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-            return View(pizzas[id]);
+        // POST: PizzaController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Pizza formData)
+        {
+            using (PizzeriaContext context = new PizzeriaContext())
+            {
+                Pizza pizzaCreate = new Pizza();
+                pizzaCreate.Name = formData.Name;
+                pizzaCreate.Description = formData.Description;
+                pizzaCreate.Picture = formData.Picture;
+                pizzaCreate.Price = formData.Price;
+
+                context.Pizzas.Add(pizzaCreate);
+
+                context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+        }
+
+        // GET: PizzaController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: PizzaController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: PizzaController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: PizzaController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }
