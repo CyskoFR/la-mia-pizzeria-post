@@ -1,5 +1,5 @@
 @{
-    Layout = "_Layout";
+    ViewData["Title"] = "Create";
 
     @model Pizza
 }
@@ -14,13 +14,13 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-group mb-3">
-                    <label for="Name">Nome Pizza *</label>
+                    <label for="Name">Nome*</label>
                     <input asp-for="Name" type="text" class="form-control">
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="Price">Prezzo Pizza *</label>
+                    <label for="Price">Prezzo*</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">€</span>
                         <input asp-for="Price" type="text" class="form-control">
@@ -30,12 +30,12 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="Description">Descrizione Pizza *</label>
+                    <label for="Description">Descrizione*</label>
                     <textarea asp-for="Description" class="form-control" rows="10"></textarea>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="Picture" class="form-label">Immagine Pizza</label>
+                    <label for="Picture" class="form-label">Immagine*</label>
                     <input asp-for="Picture" type="text" class="form-control">
                     <span asp-validation-for="Picture" class="text-danger"></span>
                 </div>
